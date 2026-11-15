@@ -1,3 +1,3 @@
 import { jarvisDefinition } from '../src/agent.js';
-import { modelConfig } from '../src/config.js';
-export default jarvisDefinition(() => modelConfig());
+import { realModel } from '../src/gateway.js';
+export default jarvisDefinition(() => realModel());

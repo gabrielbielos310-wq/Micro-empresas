@@ -1,7 +1,7 @@
 import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import { resolve } from 'node:path';
 import { eveChannel, type EveAuthFn } from 'eve/channels/eve';
-import { routeAuth } from 'eve/channels/auth';
+import { ForbiddenError, routeAuth } from 'eve/channels/auth';
 
 // Local single-instance ownership store; replace with PostgreSQL before scaling.
 export function jarvisChannel(authenticate: EveAuthFn) {
@@ -12,7 +12,13 @@ export function jarvisChannel(authenticate: EveAuthFn) {
     callers.set(req, caller);
     return caller;
   };
-  const channel = eveChannel({ auth, uploadPolicy: 'disabled', cors: false });
+  const channel = eveChannel({ auth, uploadPolicy: 'disabled', cors: false,
+    onMessage: (ctx, message) => {
+      const text = typeof message === 'string' ? message : message.map(p => p.type === 'text' ? p.text : '').join('');
+      if (!text.trim() || text.length > 8000) throw new ForbiddenError({ message: 'Mensagem inválida (1–8000 caracteres).' });
+      return { auth: ctx.eve.caller };
+    },
+  });
   const root = resolve('.eve/jarvis-owners');
   const fail = (status: number, code: string) => Response.json({ ok: false, error: code }, { status });
   const validId = (id: string) => /^[a-zA-Z0-9_-]{1,200}$/.test(id);

@@ -9,15 +9,17 @@
     "test": "tsx --test tests/*.test.ts",
     "typecheck": "tsc --noEmit",
     "build": "cd services/eve && eve build",
-    "dev": "cd services/eve && eve dev"
+    "dev": "cd services/eve && eve dev",
+    "gateway:check": "tsx scripts/gateway-check.ts"
   },
   "dependencies": {
+    "@ai-sdk/gateway": "4.0.146",
     "eve": "1.0.0-rc.18"
   },
   "devDependencies": {
-    "typescript": "5.9.3",
+    "@types/node": "24.10.1",
     "tsx": "4.20.6",
-    "@types/node": "24.10.1"
+    "typescript": "5.9.3"
   },
   "workspaces": [
     "services/eve"

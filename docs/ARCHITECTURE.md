@@ -1,5 +1,7 @@
 <!-- coderabbit-ai-generated:v1 -->
 
+<!-- coderabbit-ai-generated-section:v1:2a9020abd44263c45660dd6debbe8d23926b4cfc71fa9eccacbd94254f9c9d07 -->
+
 # Arquitetura oficial — Jarvis
 
 Jarvis é o CEO, em português brasileiro. Eve interpreta objetivos, planeja etapas, coordena agentes e avalia evidências. Claude Agent SDK será executor técnico subordinado. Nenhuma ferramenta de execução está habilitada nesta fase.
@@ -34,3 +36,13 @@ O cliente aplica 30 segundos e tenta cancelar; chamadas diretas ao canal não t�
 Executor Claude, ferramentas, departamentos reais, banco PostgreSQL e painel responsivo mobile-first. Os diretórios reservados existentes foram preservados. Nenhum deploy ou merge em main.
 
 Fontes técnicas: [Eve](https://github.com/vercel/eve), documentação distribuída com `eve@1.0.0-rc.18` (`docs/agent-config.md`, `docs/channels/eve.mdx`, `docs/guides/auth-and-route-protection.md`).
+
+
+## Evolução na Missão 02A
+
+O núcleo e as proteções existentes foram preservados. `gateway.ts` fornece o modelo oficial do Gateway à configuração dinâmica da Eve. O Proxy preserva o contrato do provider e controla geração/streaming com teto de saída, prazo, cancelamento e auditoria segura. `GatewayFailure` separa códigos de falha do conteúdo sensível dos erros originais. `scripts/gateway-check.ts` reutiliza esse adapter para uma geração direta explícita, sem retries ou sessões.
+
+A configuração antiga de string foi substituída por instância do provider para aplicar limites por chamada; seleção por JARVIS_MODEL permanece. A validação sintática não consulta o catálogo nem atesta credenciais. Testes substituem somente o modelo, sem habilitar fallback em execução real. A sessão Eve mantém contexto e controle de proprietário; diagnóstico direto não mede essa continuidade.
+
+
+<!-- /coderabbit-ai-generated:v1 -->
