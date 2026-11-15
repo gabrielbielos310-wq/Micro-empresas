@@ -1,0 +1,25 @@
+{
+  "name": "micro-empresa",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=24"
+  },
+  "scripts": {
+    "test": "tsx --test tests/*.test.ts",
+    "typecheck": "tsc --noEmit",
+    "build": "cd services/eve && eve build",
+    "dev": "cd services/eve && eve dev"
+  },
+  "dependencies": {
+    "eve": "1.0.0-rc.18"
+  },
+  "devDependencies": {
+    "typescript": "5.9.3",
+    "tsx": "4.20.6",
+    "@types/node": "24.10.1"
+  },
+  "workspaces": [
+    "services/eve"
+  ]
+}
